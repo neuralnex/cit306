@@ -9,7 +9,14 @@ form.addEventListener('submit', (e) => {
         method: 'POST',
         body: formData
     })
-    .then((response) => response.text())
+    .then((response) => {
+        if (response.ok) {
+            // Redirect to success page if registration is successful
+            window.location.href = 'success.html';
+        } else {
+            throw new Error('Network response was not ok.');
+        }
+    })
     .then((data) => console.log(data))
     .catch((error) => console.error(error));
 });
