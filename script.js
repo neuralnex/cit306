@@ -1,38 +1,15 @@
-document.getElementById('myForm').addEventListener('submit', function(event) {
-    event.preventDefault(); // Prevent the form from submitting the traditional way
+// script.js
+const form = document.getElementById('myForm');
+const url = 'https://script.google.com/macros/s/AKfycbz_tBkrd5_G5lFntJa1apc6dq3W5IH2sADnP21wg81pJQTAxeZREuJ2UNNY7PRaKYSj/exec'; // Paste deployment URL
 
-    const formData = {
-        name: document.getElementById('name').value,
-        regNumber: document.getElementById('regNumber').value,
-        department: document.getElementById('department').value,
-        school: document.getElementById('school').value,
-        courseCode: document.getElementById('courseCode').value,
-        faculty: document.getElementById('faculty').value,
-        email: document.getElementById('email').value,
-        address: document.getElementById('address').value,
-        location: document.getElementById('location').value,
-        bio: document.getElementById('bio').value,
-    };
-
-    const apiKey = 'AIzaSyDXHI62I8Ys_DBxBTayMJ0yDAnkqTQsuQE';
-    const spreadsheetId = '10JJYfBf_w89DPhcrOFV5Dom11HrA15FbUdvaaVjhIbc';
-    const sheetName = 'CIT306'; // Change to your sheet name if needed
-
-    const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${sheetName}!A1:J1?valueInputOption=USER_ENTERED&key=${apiKey}`;
-
+form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const formData = new FormData(form);
     fetch(url, {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            values: [Object.values(formData)],
-        }),
+        body: formData
     })
-    .then(response => response.json())
-    .then(data => console.log(data))
-    .catch(error => console.error(error));
+    .then((response) => response.text())
+    .then((data) => console.log(data))
+    .catch((error) => console.error(error));
 });
-
-
-
